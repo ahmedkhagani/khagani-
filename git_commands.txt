@@ -1,0 +1,8 @@
+git init=> will initial a git repo in the current directory
+git add -file name=> will add the file to the staging state
+git add -A=> will add all the files in current repo to the staging state
+git status=> will see which file is in the staging state and which is not
+git commit -m "comment"=> will move files from staging to higher level??!!
+git diff=> will show the changes been made on the files
+git remote add origin http..=> will add the online github repo to push int
+git push -u origin master => will push
