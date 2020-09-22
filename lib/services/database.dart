@@ -7,10 +7,13 @@ class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
 
-  Future updateuserdata(String name ,String Latlng)async{
+  Future updateuserdata(String name ,double Lat,double lng,String speciality,String city)async{
     return await khaganicollection.doc(uid).set({
       'name':name,
-      'Latlng':Latlng
+      'Lattitude':Lat,
+      'longitude':lng,
+      'speciality':speciality,
+      'city':city
     });
   }
 

@@ -19,6 +19,7 @@ class MapSet extends StatefulWidget {
   String named = '';
 
 
+
   @override
   _MapSetState createState() => _MapSetState(val: value, named: named);
 }
@@ -26,7 +27,8 @@ class MapSet extends StatefulWidget {
 class _MapSetState extends State<MapSet> {
   String named;
   String val;
-
+  String speciality='';
+  String city='';
   _MapSetState({this.val, this.named});
 
   final AuthService _auth = AuthService();
@@ -45,6 +47,7 @@ class _MapSetState extends State<MapSet> {
       ));
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +85,11 @@ class _MapSetState extends State<MapSet> {
               ),
               onPressed: () async {
 
-                await DatabaseService(uid: user.uid)
-                    .updateuserdata(val, Latlngs);
+                //await DatabaseService(uid: user.uid)
+                    //.updateuserdata(val,lat,lng ,speciality,city);
                 print(val);
-                print(Latlngs);
+
                 Navigator.pop(context);
-                //Navigator.pop(context);
               },
             ),
           ),

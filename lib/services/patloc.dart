@@ -1,6 +1,6 @@
 class patloc{
-  static double lat;
-  static double lng;
+  static double lat=0.0;
+  static double lng=0.0;
 }
 pattloc({String latlng}){
   var firstindex=latlng.indexOf("(");

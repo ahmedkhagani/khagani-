@@ -3,7 +3,6 @@ import 'package:flutter_app_44/services/auth.dart';
 import 'package:flutter_app_44/screen/authenticate/authenticate.dart';
 import 'package:flutter_app_44/screen/authenticate/map.dart';
 
-
 class Register extends StatefulWidget {
   final Function toggle;
   final Function map;
@@ -24,6 +23,8 @@ class RegisterState extends State<Register> {
   String password = '';
   String error = '';
   String name = '';
+  String speciality='';
+  String city='';
 
   final AuthService _auth = AuthService();
 
@@ -36,7 +37,7 @@ class RegisterState extends State<Register> {
         actions: [
           FlatButton.icon(
             onPressed: () {
-              widget.toggle();
+
             },
             icon: Icon(Icons.person),
             label: Text('Sign in'),
@@ -46,83 +47,107 @@ class RegisterState extends State<Register> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
         child: Form(
-            key: _formkey,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val == null ? 'enter a valid email' : null,
-                  onChanged: (value) {
-                    setState(() {
-                      email = value;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val.length < 6 ? 'enter a valid password' : null,
-                  onChanged: (value) {
-                    setState(() {
-                      password = value;
-                    });
-                  },
-                  obscureText: true,
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  onChanged: (value) {
-                    setState(() {
-                      name = value;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                RaisedButton(
-                    color: Colors.blue,
-                    child: Text(
-                      'Go to Google map ',
-                      style: TextStyle(color: Colors.white),
+          key: _formkey,
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'email address',
                     ),
-                    onPressed: () {
-                      if (_formkey.currentState.validate()) {
-                        widget.map();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Maps(
-                              email: email,
-                              password:password,
-                              name:name,
-                            )));
-                      }
-
-                      //
-
-                      //
-                      //if (result == null) {
-                      //setState(() {
-                      //error = 'enter valid email and password';
-                      //});
-                      //}
-                      //}
-                    }),
-                //SizedBox(
-                //height: 20.0,
-                //),
-                //Text(
-                //error,
-                //style: TextStyle(color: Colors.green),
-                //),
-              ],
-            )),
+                    validator: (val) =>
+                        val == null ? 'enter a valid email' : null,
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'password',
+                    ),
+                    validator: (val) =>
+                        val.length < 6 ? 'enter a valid password' : null,
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                      });
+                    },
+                    obscureText: true,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'name',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        name = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'speciality',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        speciality = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'current city',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        city = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  RaisedButton(
+                      color: Colors.blue,
+                      child: Text(
+                        'Go to Google map ',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        if (_formkey.currentState.validate()) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Maps(
+                                    email: email,
+                                    password: password,
+                                    name: name,
+                                    speciality: speciality,
+                                    city: city,
+                                  )));
+                        }
+                      }),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

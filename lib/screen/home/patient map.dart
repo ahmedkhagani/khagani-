@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_44/screen/home/home2.dart';
 import 'package:flutter_app_44/screen/home/the%20speciality.dart';
 import 'package:flutter_app_44/services/patloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -30,6 +31,14 @@ class _PatMapState extends State<PatMap> {
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
         title: Text('Your current location'),
+        actions: [
+          RaisedButton(
+            onPressed: () {
+              pattloc(latlng: patLatlng);
+            },
+            child: Text('confirm'),
+          )
+        ],
       ),
       body: Stack(
         children: [
@@ -45,14 +54,15 @@ class _PatMapState extends State<PatMap> {
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.all(25.0),
             child: FloatingActionButton(
-              backgroundColor: Colors.pinkAccent,
-              child: Text(
-                'R',
-              ),
-              onPressed: () {
-                pattloc(latlng: patLatlng);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Speciality()));}
-            ),
+                backgroundColor: Colors.pinkAccent,
+                child: Text(
+                  'R',
+                ),
+                onPressed: () {
+                  pattloc(latlng: patLatlng);
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Home2()));
+                }),
           ),
         ],
       ),

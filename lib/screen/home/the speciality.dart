@@ -31,16 +31,9 @@ class Speciality extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            Text(
-              latt.toString(),
-              style: TextStyle(fontSize: 30.0),
-            ),
+
             SizedBox(
               height: 20.0,
-            ),
-            Text(
-              lng.toString(),
-              style: TextStyle(fontSize: 30.0),
             ),
             Container(
               padding: EdgeInsets.symmetric(

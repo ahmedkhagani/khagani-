@@ -51,7 +51,7 @@ class _WrapperState extends State<Wrapper> {
 
         }else{
           if (scoring){
-            return Container(child: Home(sett: sett,getscore: getscore,),);
+            return Container(child: Home(),);
 
           }else{
             return Container(child: Speciality(),);

@@ -8,19 +8,22 @@ class Maps extends StatefulWidget {
   String email;
   String password;
   String name;
-  Maps({this.map, this.email, this.password, this.name});
+  String speciality;
+  String city;
+  Maps({this.map, this.email, this.password, this.name,this.speciality,this.city});
 
   @override
   _MapsState createState() =>
-      _MapsState(email: email, password: password, name: name);
+      _MapsState(email: email, password: password, name: name,speciality:speciality,city: city);
 }
 
 class _MapsState extends State<Maps> {
   String email;
   String password;
   String name;
-
-  _MapsState({this.email, this.password, this.name});
+  String speciality;
+  String city;
+  _MapsState({this.email, this.password, this.name,this.speciality,this.city});
 
   final AuthService _auth = AuthService();
 
@@ -39,20 +42,34 @@ class _MapsState extends State<Maps> {
     });
   }
 
+  double lattt;
+  double lnggg ;
+
+
+  geolocate({String latlng}){
+    var firstindex=latlng.indexOf('(');
+    var secondindex=latlng.indexOf(',');
+    var thirdindex=latlng.indexOf(')');
+    String lat=latlng.substring(firstindex+1,secondindex);
+    String lng=latlng.substring(secondindex+1,thirdindex);
+
+    lattt=double.parse(lat);
+    lnggg=double.parse(lng);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
         title: Text('Register'),
+        elevation: 4,
         actions: [
           FlatButton(
               onPressed: () {
-                setState(() {
-                  widget.map();
-                });
+                  geolocate(latlng:Latlng);
               },
-              child: Text('Back'))
+              child: Text('confirm location')),
         ],
       ),
       body: Stack(
@@ -74,9 +91,10 @@ class _MapsState extends State<Maps> {
                   'R',
                 ),
                 onPressed: () async{
+
                   dynamic result = await _auth.registerwithemailandpassword(
-                      email, password, name, Latlng);
-                  Navigator.pop(context);
+                      email, password, name,lattt,lnggg,speciality,city);
+                  await Navigator.pop(context);
                 },
               ))
         ],
@@ -84,3 +102,5 @@ class _MapsState extends State<Maps> {
     );
   }
 }
+
+
