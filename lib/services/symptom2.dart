@@ -148,7 +148,7 @@ maindisease2({String chiefcomp}) {
   var ild3 = disease2('interstitial lung disease', 'dyspnea', 'cough', 'fever',
       'sputum', 'null', 'null', 'null', 'other respiratory problems');
 
-  var dm = disease2('DM', 'polyuia', 'polydepsia', 'polyphagia', 'weight loss',
+  var dm = disease2('DM', 'polyuria', 'polydepsia', 'polyphagia', 'weight loss',
       'family history', 'null', 'null', 'weight gain');
   var thyrotoxicosis = disease2('thyrotoxicosis', 'palpitation', 'sweating',
       'tremer', 'insomnia', 'previous goitre', 'null', 'null', 'null');
@@ -296,10 +296,10 @@ maindisease2({String chiefcomp}) {
   var endokey = 0;
   var endolen = endosym.length;
   //var chiefcomp='chest pain';
-  var others = ['sputum', 'palpitation'];
+  var others = ['0', '0'];
   var o = 0;
   var oo = others.length;
-  var riskf = ['smoking', 'DM'];
+  var riskf = ['0', '0'];
   var r = 0;
   var rr = riskf.length;
   var cvsscore = 0;

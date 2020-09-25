@@ -51,10 +51,19 @@ class AuthService {
     }
   }
 
+
+
+  Future<void> update_pass(String pass) async {
+
+      User user = await FirebaseAuth.instance.currentUser; 
+      user.updatePassword(pass);
+
+  }
+  // this function wiil return user
   Users _userfromfirebaseuser(User user) {
     return user != null ? Users(uid: user.uid) : null;
   }
-
+  // will return madry shno//but it had been made in the beginning of the series and wrapped the main function
   Stream<Users> get user {
     return _auth
         .authStateChanges()
@@ -69,5 +78,30 @@ class AuthService {
       return null;
     }
   }
+
+  validateCurrentPassword(String password) async {
+    return await AuthService().validatePassword(password);
+  }
+
+  Future<bool> validatePassword(String password) async {
+    User user = await _auth.currentUser;
+
+    AuthCredential credentialss =
+        EmailAuthProvider.credential(email: user.email, password: password);
+    try {
+      UserCredential cred =
+          await user.reauthenticateWithCredential(credentialss);
+      return cred.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+  /*var uid = FirebaseAuth.instance.currentUser.uid;
+  deletedata(uid)async {
+    return await DatabaseService(uid: uid).deletedata(uid);
+  }*/
 }
+
+
 //register method is very important

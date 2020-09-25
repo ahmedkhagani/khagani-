@@ -64,13 +64,6 @@ class _MapsState extends State<Maps> {
         backgroundColor: Colors.pinkAccent,
         title: Text('Register'),
         elevation: 4,
-        actions: [
-          FlatButton(
-              onPressed: () {
-                  geolocate(latlng:Latlng);
-              },
-              child: Text('confirm location')),
-        ],
       ),
       body: Stack(
         children: [
@@ -91,10 +84,14 @@ class _MapsState extends State<Maps> {
                   'R',
                 ),
                 onPressed: () async{
-
+                  await geolocate(latlng:Latlng);
                   dynamic result = await _auth.registerwithemailandpassword(
                       email, password, name,lattt,lnggg,speciality,city);
+                  if (result==null){
+                    error.errors='Invalid credentials or Internet connection error';
+                  }
                   await Navigator.pop(context);
+
                 },
               ))
         ],
@@ -102,5 +99,6 @@ class _MapsState extends State<Maps> {
     );
   }
 }
+
 
 

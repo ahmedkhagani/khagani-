@@ -21,7 +21,7 @@ class RegisterState extends State<Register> {
 
   String email = '';
   String password = '';
-  String error = '';
+
   String name = '';
   String speciality='';
   String city='';
@@ -37,7 +37,7 @@ class RegisterState extends State<Register> {
         actions: [
           FlatButton.icon(
             onPressed: () {
-
+              widget.toggle();
             },
             icon: Icon(Icons.person),
             label: Text('Sign in'),
@@ -125,6 +125,7 @@ class RegisterState extends State<Register> {
                   SizedBox(
                     height: 20.0,
                   ),
+                  Text(error.errors,style: TextStyle(color: Colors.blue,fontSize: 10.0),),
                   RaisedButton(
                       color: Colors.blue,
                       child: Text(
@@ -143,6 +144,8 @@ class RegisterState extends State<Register> {
                                   )));
                         }
                       }),
+                  SizedBox(height: 20.0,),
+
                 ],
               ),
             ),
@@ -151,4 +154,7 @@ class RegisterState extends State<Register> {
       ),
     );
   }
+}
+class error{
+  static String errors='';
 }

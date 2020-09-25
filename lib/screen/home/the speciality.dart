@@ -35,18 +35,7 @@ class Speciality extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                vertical: 20.0,
-                horizontal: 20.0,
-              ),
-              child: RaisedButton(
-                  child: Text('go to google map'),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => PatMap()));
-                  }),
-            )
+
           ],
         ),
       ),

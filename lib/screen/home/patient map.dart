@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_44/screen/home/home2.dart';
+
+import 'package:flutter_app_44/screen/home/home3.dart';
 import 'package:flutter_app_44/screen/home/the%20speciality.dart';
 import 'package:flutter_app_44/services/patloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import "package:flutter_app_44/screen/home/kakan_list.dart";
 
 class PatMap extends StatefulWidget {
   @override
@@ -31,14 +33,6 @@ class _PatMapState extends State<PatMap> {
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
         title: Text('Your current location'),
-        actions: [
-          RaisedButton(
-            onPressed: () {
-              pattloc(latlng: patLatlng);
-            },
-            child: Text('confirm'),
-          )
-        ],
       ),
       body: Stack(
         children: [
@@ -60,8 +54,9 @@ class _PatMapState extends State<PatMap> {
                 ),
                 onPressed: () {
                   pattloc(latlng: patLatlng);
+
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Home2()));
+                      .push(MaterialPageRoute(builder: (context) => Home3()));
                 }),
           ),
         ],

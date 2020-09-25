@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_44/screen/home/home2.dart';
+import 'package:flutter_app_44/screen/home/homedoctor.dart';
+
 import 'package:flutter_app_44/screen/home/kakan_list.dart';
 import 'package:flutter_app_44/screen/home/patient%20map.dart';
 import 'package:flutter_app_44/screen/home/setter.dart';
 import 'package:flutter_app_44/screen/home/the%20speciality.dart';
+import 'package:flutter_app_44/screen/home/updatepass.dart';
 import 'package:flutter_app_44/services/auth.dart';
 import 'package:flutter_app_44/services/database.dart';
 import 'package:flutter_app_44/services/final%20score.dart';
@@ -24,6 +26,8 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
 
   String chief;
+
+  String pass;
 
   @override
   Widget build(BuildContext context) {
@@ -51,47 +55,68 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20.0,
-            ),
-            TextFormField(
-              onChanged: (value) {
-                setState(() {
-                  chief = value;
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'enter a chief complaint',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20.0,
               ),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            RaisedButton(
-              onPressed: () {
-                //Disease(chief: chief);
-                maindisease2(chiefcomp: chief);
-                countthe();
+              TextFormField(
+                onChanged: (value) {
+                  setState(() {
+                    chief = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'enter a chief complaint',
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                onPressed: () {
+                  //Disease(chief: chief);
+                  maindisease2(chiefcomp: chief);
+                  countthe();
 
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Speciality(),
-                ));
-              },
-              child: Text('send'),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            RaisedButton(
-              child: Text('show result'),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PatMap()));
-              },
-            ),
-          ],
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Speciality(),
+                  ));
+                },
+                child: Text('send'),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                child: Text('show result'),
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => PatMap()));
+                },
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                  child: Text('show me my profile'),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => HomeDoc()));
+                  }),
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Update()));
+                },
+                child: Text('update'),
+              ),
+            ],
+          ),
         ),
       ),
     );
