@@ -12,26 +12,33 @@ class HomeDoc extends StatefulWidget {
 }
 
 class _HomeDocState extends State<HomeDoc> {
+  var uid = FirebaseAuth.instance.currentUser.uid;
+
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<QuerySnapshot>.value(
-      value: DatabaseService().profile,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.pinkAccent,
-          title: Text('my profile'),
-        ),
-        body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                DocList(),
-              ],
+    return StreamProvider<List<profileinfo>>.value(
+                value: DatabaseService().myprofile) ==
+            null
+        ? Container()
+        : StreamProvider<List<profileinfo>>.value(
+            //initialData: ,
+            value: DatabaseService().myprofile,
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.pinkAccent,
+                title: Text('my profile'),
+              ),
+              body: Container(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DocList(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

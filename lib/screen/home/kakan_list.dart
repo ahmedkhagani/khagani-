@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_44/screen/home/docposmap.dart';
 import 'package:flutter_app_44/screen/home/home.dart';
-import 'package:flutter_app_44/screen/home/markermap.dart';
 import 'package:flutter_app_44/screen/home/patient%20map.dart';
 import 'package:flutter_app_44/services/auth.dart';
 import 'package:flutter_app_44/services/database.dart';
@@ -19,6 +19,7 @@ class _KakanListState extends State<KakanList> {
   @override
   Widget build(BuildContext context) {
     final kakan = Provider.of<QuerySnapshot>(context);
+    //final kakani =Provider.of<List<profileinfo>>(context);
     var patlatt = patloc.lat;
     var patlngg = patloc.lng;
     var sum = 0.0;
@@ -29,36 +30,38 @@ class _KakanListState extends State<KakanList> {
 
     String name = '';
     String speciality = '';
-
-    for (var docus in kakan.docs) {
-      print(docus.data()['Lattitude']);
-      print(docus.data()['longitude']);
-      lati = docus.data()['Lattitude'];
-      longi = docus.data()['Lattitude'];
-      sum = ((lati - patlatt) * (lati - patlatt)) +
-          ((longi - patlngg) * (longi - patlngg));
-      result = sqrt(sum);
-      if (result > dist) {
-        dist = result;
+    if(kakan!=null){
+      for (var docus in kakan.docs) {
+        print(docus.data()['Lattitude']);
+        print(docus.data()['longitude']);
+        lati = docus.data()['Lattitude'];
+        longi = docus.data()['Lattitude'];
+        sum = ((lati - patlatt) * (lati - patlatt)) +
+            ((longi - patlngg) * (longi - patlngg));
+        result = sqrt(sum);
+        if (result > dist) {
+          dist = result;
+        }
+        print(dist);
       }
-      print(dist);
+
+      for (var docus in kakan.docs) {
+        lati = docus.data()['Lattitude'];
+        longi = docus.data()['longitude'];
+        sum = ((lati - patlatt) * (lati - patlatt)) +
+            ((longi - patlngg) * (longi - patlngg));
+        result = sqrt(sum);
+        if (result < dist) {
+          dist = result;
+          name = docus.data()['name'];
+          speciality = docus.data()['speciality'];
+          doctormarker.latt = lati;
+          doctormarker.lngg = longi;
+        }
+        print(dist);
+      }
     }
 
-    for (var docus in kakan.docs) {
-      lati = docus.data()['Lattitude'];
-      longi = docus.data()['longitude'];
-      sum = ((lati - patlatt) * (lati - patlatt)) +
-          ((longi - patlngg) * (longi - patlngg));
-      result = sqrt(sum);
-      if (result < dist) {
-        dist = result;
-        name = docus.data()['name'];
-        speciality = docus.data()['speciality'];
-        doctormarker.latt=lati;
-        doctormarker.lngg=longi;
-      }
-      print(dist);
-    }
 
     return Container(
       child: SingleChildScrollView(
@@ -94,11 +97,14 @@ class _KakanListState extends State<KakanList> {
                 child: RaisedButton(
                     child: Text('go to google map'),
                     onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Marker()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DocPosMap(
+                                lat: lati,
+                                lng: longi,
+                              )));
                     }),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -111,9 +117,11 @@ class _KakanListState extends State<KakanList> {
 //print(docus.data()['name']);
 //}
 
-class doctormarker{
+class doctormarker {
   static double latt;
   static double lngg;
-  static String latti=latt.toString();
-  static String lnggi=lngg.toString();
+  static String latti = latt.toString();
+  static String lnggi = lngg.toString();
 }
+
+

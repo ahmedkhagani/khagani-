@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_44/screen/home/docposmap.dart';
 import 'package:flutter_app_44/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_app_44/services/database.dart';
@@ -15,13 +16,32 @@ class _DocListState extends State<DocList> {
   String uid = FirebaseAuth.instance.currentUser.uid;
   @override
   Widget build(BuildContext context) {
-    final prof = Provider.of<QuerySnapshot>(context);
-    print(uid);
-    String latt;
-    String lngg;
-    String name;
-    String speciality;
-    for (var proof in prof.docs) {
+    final prof = Provider.of<List<profileinfo>>(context);
+    String latt = '';
+    String lngg = '';
+    String name = '';
+    String speciality = '';
+    String city='';
+    double lati;
+    double lngi;
+    if (prof != null) {
+      prof.forEach((profy) {
+        print(profy.id);
+        print(profy.name);
+        print(profy.speciality);
+        print(profy.lat);
+        print(profy.lng);
+        if (profy.id == uid) {
+          name = profy.name;
+          speciality = profy.speciality;
+          latt = profy.lat.toString();
+          lngg = profy.lng.toString();
+          city = profy.city;
+        }
+      });
+    }
+
+    /*for (var proof in prof.docs) {
       if (proof.id == uid) {
         print(proof.data()['Lattitude']);
         print(proof.data()['longitude']);
@@ -31,8 +51,10 @@ class _DocListState extends State<DocList> {
         lngg = proof.data()['longitude'].toString();
         name = proof.data()['name'];
         speciality = proof.data()['speciality'];
+        lati = proof.data()['Lattitude'];
+        lngi = proof.data()['longitude'];
       }
-    }
+    }*/
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -75,9 +97,38 @@ class _DocListState extends State<DocList> {
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Center(
+              child: Text(
+                city,
+                style: TextStyle(fontSize: 20.0),
+              ),
+            ),
+            /*RaisedButton(
+              child: Text('show doctor location'),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DocPosMap(
+                          lat: lati,
+                          lng: lngi,
+                        )));
+              },
+            ),*/
           ],
         ),
       ),
     );
   }
+}
+
+class profileinfo {
+  var id;
+  String name = '';
+  String speciality = '';
+  String city='';
+  double lat = 0.0;
+  double lng = 0.0;
+  profileinfo({this.id, this.name, this.speciality,this.city, this.lat, this.lng});
 }

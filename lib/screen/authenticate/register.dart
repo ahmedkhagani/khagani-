@@ -23,8 +23,8 @@ class RegisterState extends State<Register> {
   String password = '';
 
   String name = '';
-  String speciality='';
-  String city='';
+  String speciality = '';
+  String city = '';
 
   final AuthService _auth = AuthService();
 
@@ -125,7 +125,7 @@ class RegisterState extends State<Register> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Text(error.errors,style: TextStyle(color: Colors.blue,fontSize: 10.0),),
+
                   RaisedButton(
                       color: Colors.blue,
                       child: Text(
@@ -144,8 +144,16 @@ class RegisterState extends State<Register> {
                                   )));
                         }
                       }),
-                  SizedBox(height: 20.0,),
-
+                  Text(
+                    error.errors,
+                    style: TextStyle(color: Colors.blue, fontSize: 5.0),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
                 ],
               ),
             ),
@@ -154,7 +162,4 @@ class RegisterState extends State<Register> {
       ),
     );
   }
-}
-class error{
-  static String errors='';
 }

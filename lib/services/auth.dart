@@ -3,6 +3,9 @@ import 'package:flutter_app_44/models/user.dart';
 import 'package:flutter_app_44/services/database.dart';
 
 class AuthService {
+
+  static bool verified;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future signinanon() async {
@@ -31,23 +34,42 @@ class AuthService {
 
       await DatabaseService(uid: user.uid)
           .updateuserdata(name, Lat, lng, speciality, city);
+      await user.sendEmailVerification();
+
+
 
       return _userfromfirebaseuser(user);
     } catch (e) {
+
+
       print(e.toString());
+      print('an error occured during email verification');
       return null;
     }
   }
 
   Future signinwithemailandpassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      User user = result.user;
-      return _userfromfirebaseuser(user);
+
+        UserCredential result = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        User user = result.user;
+
+        return _userfromfirebaseuser(user);
+
+
+
+
     } catch (e) {
       print(e.toString());
+      print('verify your email address');
       return null;
+    }
+  }
+  bool isemailverified(){
+    if (FirebaseAuth.instance.currentUser.emailVerified){
+      verified=true;
+      return verified;
     }
   }
 
@@ -96,12 +118,42 @@ class AuthService {
       print(e);
       return false;
     }
+
+
+  }
+  verifyyouremail(String email,String password)async{
+    return await AuthService().verifyemail(email, password);
+  }
+  Future<bool> verifyemail(String email,String password)async{
+    User user = await _auth.currentUser;
+    AuthCredential credentiality=await EmailAuthProvider.credential(email: email, password: password);
+    try{
+      UserCredential credi= await user.reauthenticateWithCredential(credentiality);
+        return credi.user !=null;
+    }
+    catch(e){
+      print(e);
+      return false;
+    }
+  }
+
+  resendemail()async{
+    User user = FirebaseAuth.instance.currentUser;
+    try{
+      await user.sendEmailVerification();
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
+
   }
   /*var uid = FirebaseAuth.instance.currentUser.uid;
   deletedata(uid)async {
     return await DatabaseService(uid: uid).deletedata(uid);
   }*/
 }
+
 
 
 //register method is very important

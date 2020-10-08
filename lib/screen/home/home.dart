@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_44/screen/home/doctorlist.dart';
 import 'package:flutter_app_44/screen/home/homedoctor.dart';
 
 import 'package:flutter_app_44/screen/home/kakan_list.dart';
@@ -7,6 +11,7 @@ import 'package:flutter_app_44/screen/home/patient%20map.dart';
 import 'package:flutter_app_44/screen/home/setter.dart';
 import 'package:flutter_app_44/screen/home/the%20speciality.dart';
 import 'package:flutter_app_44/screen/home/updatepass.dart';
+import 'package:flutter_app_44/screen/home/wrapper.dart';
 import 'package:flutter_app_44/services/auth.dart';
 import 'package:flutter_app_44/services/database.dart';
 import 'package:flutter_app_44/services/final%20score.dart';
@@ -21,7 +26,27 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _formKey = GlobalKey<FormState>();
+  bool _emailverified = false;
+  Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    Future(() async {
+      _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
+        await FirebaseAuth.instance.currentUser
+          ..reload();
+        var user = FirebaseAuth.instance.currentUser;
+        if (user.emailVerified) {
+          setState(() {
+            _emailverified = user.emailVerified;
+            verified.verify = user.emailVerified;
+          });
+          timer.cancel();
+        }
+      });
+    });
+  }
 
   final AuthService _auth = AuthService();
 
@@ -115,10 +140,29 @@ class _HomeState extends State<Home> {
                 },
                 child: Text('update'),
               ),
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                child: Text('Go To Mcqs'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/mcqs');
+                },
+                color: Colors.lightBlueAccent,
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
 }
+

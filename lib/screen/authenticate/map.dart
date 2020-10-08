@@ -10,11 +10,21 @@ class Maps extends StatefulWidget {
   String name;
   String speciality;
   String city;
-  Maps({this.map, this.email, this.password, this.name,this.speciality,this.city});
+  Maps(
+      {this.map,
+      this.email,
+      this.password,
+      this.name,
+      this.speciality,
+      this.city});
 
   @override
-  _MapsState createState() =>
-      _MapsState(email: email, password: password, name: name,speciality:speciality,city: city);
+  _MapsState createState() => _MapsState(
+      email: email,
+      password: password,
+      name: name,
+      speciality: speciality,
+      city: city);
 }
 
 class _MapsState extends State<Maps> {
@@ -23,7 +33,8 @@ class _MapsState extends State<Maps> {
   String name;
   String speciality;
   String city;
-  _MapsState({this.email, this.password, this.name,this.speciality,this.city});
+  _MapsState(
+      {this.email, this.password, this.name, this.speciality, this.city});
 
   final AuthService _auth = AuthService();
 
@@ -43,18 +54,17 @@ class _MapsState extends State<Maps> {
   }
 
   double lattt;
-  double lnggg ;
+  double lnggg;
 
+  geolocate({String latlng}) {
+    var firstindex = latlng.indexOf('(');
+    var secondindex = latlng.indexOf(',');
+    var thirdindex = latlng.indexOf(')');
+    String lat = latlng.substring(firstindex + 1, secondindex);
+    String lng = latlng.substring(secondindex + 1, thirdindex);
 
-  geolocate({String latlng}){
-    var firstindex=latlng.indexOf('(');
-    var secondindex=latlng.indexOf(',');
-    var thirdindex=latlng.indexOf(')');
-    String lat=latlng.substring(firstindex+1,secondindex);
-    String lng=latlng.substring(secondindex+1,thirdindex);
-
-    lattt=double.parse(lat);
-    lnggg=double.parse(lng);
+    lattt = double.parse(lat);
+    lnggg = double.parse(lng);
   }
 
   @override
@@ -76,29 +86,34 @@ class _MapsState extends State<Maps> {
             onTap: handletap,
           ),
           Container(
-              alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.all(25.0),
-              child: FloatingActionButton(
-                backgroundColor: Colors.pinkAccent,
-                child: Text(
-                  'R',
-                ),
-                onPressed: () async{
-                  await geolocate(latlng:Latlng);
-                  dynamic result = await _auth.registerwithemailandpassword(
-                      email, password, name,lattt,lnggg,speciality,city);
-                  if (result==null){
-                    error.errors='Invalid credentials or Internet connection error';
-                  }
-                  await Navigator.pop(context);
+            alignment: Alignment.bottomLeft,
+            padding: EdgeInsets.all(25.0),
+            child: FloatingActionButton(
+              backgroundColor: Colors.pinkAccent,
+              child: Text(
+                'R',
+              ),
+              onPressed: () async {
+                await geolocate(latlng: Latlng);
+                dynamic result = await _auth.registerwithemailandpassword(
+                    email, password, name, lattt, lnggg, speciality, city);
+                if (result == null) {
+                  setState(() {
+                    error.errors =
+                        'Invalid credentials or Internet connection error';
+                  });
+                }
 
-                },
-              ))
+                await Navigator.pop(context);
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-
-
+class error {
+  static String errors = '';
+}
